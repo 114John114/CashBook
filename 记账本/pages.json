@@ -27,12 +27,6 @@
             }
         },
         {
-            "path": "pages/index/article",
-            "style": {
-                "navigationBarTitleText": "内容"
-            }
-        },
-        {
             "path": "pages/index/in",
             "style": {
               "navigationBarTitleText": "收入详情"
