@@ -19,9 +19,7 @@
 		<view class="sa-value mt20">
 			<input v-model="textRemarks" placeholder-class="placeholder" placeholder="账单备注" />
 		</view>
-		<view class="sa-value mt20">
-			<input type="date" v-model="customDate" placeholder-class="placeholder" placeholder="选择日期" />
-		</view>
+		
 		<button class="sa-save" hover-class="" @click="btnForm">保存</button>
 	</view>
 </template>
