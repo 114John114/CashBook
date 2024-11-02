@@ -25,7 +25,20 @@
 			"style": {
 				"navigationBarTitleText": "内容"
 			}
+		},
+		{
+		    "path": "pages/index/in",
+		    "style": {
+		      "navigationBarTitleText": "收入详情"
+		    }
+		},
+		{
+		    "path": "pages/index/out",
+		    "style": {
+		      "navigationBarTitleText": "支出详情"
+		    }
 		}
+
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
