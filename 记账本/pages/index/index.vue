@@ -14,17 +14,24 @@
 						</view>
 					</view>
 					<view class="item">
-						<view class="text">收入</view>
-						<view class="content">{{totalIncome}}</view>
+						
+						<button @click="navigateToin">
+						    <text style="font-size: 32rpx; color: #fff;">收入</text>
+							<view style="font-size: 32rpx; color: #fff; margin-top: 10%;">{{totalIncome}}</view>
+							
+						</button>
+
 					</view>
 					<view class="item">
-						<view class="text">支出</view>
-						<view class="content">{{totalExpend}}</view>
+						
+						<button @click="navigateToout">
+						    <text style="font-size: 32rpx; color: #fff;">支出</text>
+							<view style="font-size: 32rpx; color: #fff; margin-top:10% ;">{{totalExpend}}</view>
+						</button>
 					</view>
 				</view>
 			</view>
 		</view>
-		<button @click="navigateToOtherPage" class="navigate-button">跳转到其他页面</button>
 		<view class="sa-list">
 			<view class="item" v-for="(item, index) in dataList" :key="index">
 				<view class="count">
@@ -92,11 +99,16 @@
 			}
 		},
 		methods: {
-		navigateToOtherPage() {
-		        uni.navigateTo({
-		            url: '/path/to/your/targetPage' // 替换为目标页面的路径
-		        });
-		    },
+			navigateToin() {
+			  uni.navigateTo({
+			    url: '/pages/index/in'
+			  });
+			},
+			navigateToout() {
+			  uni.navigateTo({
+			    url: '/pages/index/out'
+			  });
+			},
 			getData() {
 				uni.getStorage({
 					key: 'sa_storage_bill',
@@ -127,7 +139,7 @@
 	}
 </script>
 <style lang="less">
-	.sa-head {
+		.sa-head {
 		top: 0;
 		left: 0;
 		right: 0;
@@ -259,7 +271,7 @@
 				margin-bottom: 20rpx;
 			}
 			.text {
-				color: #a7a7a7;
+				color: #a7a7a8;
 				font-size: 32rpx;
 			}
 		}
