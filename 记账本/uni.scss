@@ -41,7 +41,7 @@ $uni-border-color:#c8c7cc;
 /* 文字尺寸 */
 $uni-font-size-sm:12px;
 $uni-font-size-base:14px;
-$uni-font-size-lg:16px;
+$uni-font-size-lg:16;
 
 /* 图片尺寸 */
 $uni-img-size-sm:20px;
@@ -74,3 +74,111 @@ $uni-color-subtitle: #555555; // 二级标题颜色
 $uni-font-size-subtitle:26px;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:15px;
+
+/*
+** 弹性布局
+** 海东青 QQ2273188995
+** 山东萨夫信息科技有限公司
+*/
+.sa-flex-x {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	//white-space: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: center;
+	/* 水平左对齐 */
+	&.left {
+		justify-content: flex-start;
+	}
+	/* 水平居中对齐 */
+	&.center {
+		justify-content: center;
+	}
+	/* 水平右对齐 */
+	&.right {
+		justify-content: flex-end;
+	}
+	/* 水平两端对齐 */
+	&.space {
+		justify-content: space-between;
+	}
+	/* 垂直顶部对齐 */
+	&.top {
+		align-items: flex-start;
+		align-content: flex-start;
+	}
+	/* 垂直底部对齐 */
+	&.bottom {
+		align-items: flex-end;
+		align-content: flex-end;
+	}
+	/* 允许换行 */
+	&.wrap {
+		flex-wrap: wrap;
+	}
+	/* 等比分列，2-6列 */
+	@for $i from 2 through 6 {
+		&.sa-flex-#{$i}{
+			&>view{
+				width:(100% / $i);
+			}
+		}
+	}
+	/* 弹性元素 */
+	&>.item-grow{
+		flex-grow: 1;
+		width:0;
+	}
+}
+/* 分行式弹性盒子，以Y轴从上到下排列 */
+.sa-flex-y {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	/* 垂直居中对齐 */
+	&.center {
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+	}
+	/* 水平左对齐 */
+	&.left {
+		align-items: flex-start;
+		align-content: flex-start;
+	}
+	/* 水平右对齐 */
+	&.right {
+		align-items: flex-end;
+		align-content: flex-end;
+	}
+	/* 垂直两端对齐 */
+	&.space {
+		justify-content: space-between;
+	}
+	/* 垂直顶部对齐 */
+	&.top {
+		justify-content: flex-start;
+	}
+	/* 垂直底部对齐 */
+	&.bottom {
+		justify-content: flex-end;
+	}
+	/* 等比分行，2-6行 */
+	@for $i from 2 through 6 {
+		&.sa-flex-#{$i}{
+			&>view{
+				height:(100% / $i);
+			}
+		}
+	}
+	/* 弹性元素 */
+	&>.item-grow {
+		flex-grow: 1;
+		height: 0;
+	}
+}
