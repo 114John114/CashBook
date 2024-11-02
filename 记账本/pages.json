@@ -9,6 +9,12 @@
 			}
 		},
 		{
+		      "path": "pages/index/scheme",
+		      "style": {
+		        "navigationBarTitleText": "理财方案"
+		      }
+		},
+		{
 			"path": "pages/index/add",
 			"style": {
 				"navigationBarTitleText": "记账"
