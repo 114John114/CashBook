@@ -19,10 +19,17 @@
 		<view class="sa-value mt20">
 			<input v-model="textRemarks" placeholder-class="placeholder" placeholder="账单备注" />
 		</view>
-		
+		<view class="sa-value mt20">
+			<picker mode="date" v-model="selectedDate" @change="onDateChange">
+				<view class="picker">
+					请选择日期：{{ selectedDate }}
+				</view>
+			</picker>
+		</view>
 		<button class="sa-save" hover-class="" @click="btnForm">保存</button>
 	</view>
 </template>
+
 <script>
 	import format from '@/utils/format';
 	export default {
@@ -33,129 +40,94 @@
 				classList: [],
 				keyVal: '',
 				textRemarks: '',
-				customDate: '', // 新增自定义日期字段
-				tabList: ['支出','收入'],
+				selectedDate: '', // 日期选择变量
+				tabList: ['支出', '收入'],
 				expend: [
-					{
-						id: 1,
-						title: '餐饮',
-						icon: 'canyin'
-					},
-					{
-						id: 2,
-						title: '教育',
-						icon: 'jiaoyu'
-					},
-					{
-						id: 3,
-						title: '旅行',
-						icon: 'lvxing'
-					},
-					{
-						id: 4,
-						title: '汽车',
-						icon: 'qiche'
-					},
-					{
-						id: 5,
-						title: '书籍',
-						icon: 'shuji'
-					},
-					{
-						id: 6,
-						title: '运动',
-						icon: 'yundong'
-					},
-					{
-						id: 7,
-						title: '住房',
-						icon: 'zhufang'
-					}
+					{ id: 1, title: '餐饮', icon: 'canyin' },
+					{ id: 2, title: '教育', icon: 'jiaoyu' },
+					{ id: 3, title: '旅行', icon: 'lvxing' },
+					{ id: 4, title: '汽车', icon: 'qiche' },
+					{ id: 5, title: '书籍', icon: 'shuji' },
+					{ id: 6, title: '运动', icon: 'yundong' },
+					{ id: 7, title: '住房', icon: 'zhufang' }
 				],
 				income: [
-					{
-						id: 1,
-						title: '工资',
-						icon: 'gongzi'
-					},
-					{
-						id: 2,
-						title: '奖金',
-						icon: 'jiangjin'
-					},
-					{
-						id: 3,
-						title: '兼职',
-						icon: 'jianzhi'
-					}
+					{ id: 1, title: '工资', icon: 'gongzi' },
+					{ id: 2, title: '奖金', icon: 'jiangjin' },
+					{ id: 3, title: '兼职', icon: 'jianzhi' }
 				]
-			}
+			};
 		},
 		onShow() {
 			this.tabId = 0;
 			this.subId = 0;
 			this.keyVal = '';
 			this.textRemarks = '';
-			this.customDate = ''; // 重置自定义日期
+			this.selectedDate = ''; // 重置日期
 			this.classList = this.expend;
 		},
 		methods: {
 			onTab(type, index) {
-				if(type == 1) {
+				if (type == 1) {
 					this.subId = index + 1;
-				}else{
+				} else {
 					this.subId = 0;
 					this.tabId = index;
 					this.keyVal = '';
-					if(index == 1) {
-						this.classList = this.income;
-					}else{
-						this.classList = this.expend;
-					}
+					this.classList = index == 1 ? this.income : this.expend;
 				}
+			},
+			onDateChange(e) {
+				this.selectedDate = e.detail.value; // 更新选中的日期
 			},
 			async btnForm() {
 				try {
-					if(this.subId == 0) {
-					  throw '请选择记录类别';
+					if (this.subId == 0) {
+						throw '请选择记录类别';
 					}
-					if(this.keyVal == '' || this.keyVal == 0) {
-					  throw '请输入记录金额';
+					if (this.keyVal == '' || this.keyVal == 0) {
+						throw '请输入记录金额';
 					}
-				}catch (err) {
-					uni.showToast({title: err,icon: 'none',duration: 1000});
-				  return false;
+					if (!this.selectedDate) {
+						throw '请选择记录日期'; // 验证用户是否选择了日期
+					}
+				} catch (err) {
+					uni.showToast({ title: err, icon: 'none', duration: 1000 });
+					return false;
 				}
-				this.save();
+				this.save(); // 保存数据
 			},
 			save() {
 				const parm = {
 					type: this.tabId,
-					icon: this.classList[this.subId-1].icon,
-					content: this.classList[this.subId-1].title,
+					icon: this.classList[this.subId - 1].icon,
+					content: this.classList[this.subId - 1].title,
 					money: this.keyVal,
 					remarks: this.textRemarks,
-					create_time: this.customDate || format.getSysDate() // 使用自定义日期或系统日期
+					create_time: this.selectedDate,
+					selected_date: this.selectedDate // 保存用户选择的日期
 				};
 				uni.getStorage({
 					key: 'sa_storage_bill',
 					success: (res) => {
 						let classData = JSON.parse(res.data);
 						classData.push(parm);
-						uni.setStorage({key: 'sa_storage_bill', data: JSON.stringify(classData.reverse())});
+						uni.setStorage({ key: 'sa_storage_bill', data: JSON.stringify(classData.reverse()) });
 					},
 					fail: (err) => {
 						uni.setStorage({
 							key: 'sa_storage_bill',
 							data: JSON.stringify([parm])
-						})
+						});
 					}
-				})
-				uni.switchTab({url: `/pages/index/index`});
+				});
+				uni.switchTab({ url: `/pages/index/index` });
 			}
 		}
 	}
 </script>
+
+
 <style lang="less">
 	.sa-tabs {
 		min-height: 40px;
@@ -203,15 +175,6 @@
 					width: 40rpx;
 					height: 40rpx;
 				}
-				&.active {
-					background-color: #07c160;
-					color: #fff;
-				}
-				&.add {
-					width: 96rpx;
-					height: 96rpx;
-					border: 2rpx dashed #999;
-				}
 			}
 			.name {
 				margin-top: 10rpx;
@@ -240,6 +203,13 @@
 				font-size: 32rpx;
 			}
 		}
+	}
+	.picker {
+		padding: 20rpx;
+		font-size: 32rpx;
+		color: #000;
+		background-color: #fff;
+		border-radius: 20rpx;
 	}
 	.sa-save {
 		margin: 30rpx 20rpx;
