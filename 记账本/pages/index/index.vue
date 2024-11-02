@@ -139,7 +139,7 @@
 	}
 </script>
 <style lang="less">
-	.sa-head {
+		.sa-head {
 		top: 0;
 		left: 0;
 		right: 0;
@@ -271,7 +271,7 @@
 				margin-bottom: 20rpx;
 			}
 			.text {
-				color: #a7a7a7;
+				color: #a7a7a8;
 				font-size: 32rpx;
 			}
 		}
